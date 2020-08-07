@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+</head>
+<body>
+<form th:action="@{/}" method="post">
+    <div>
+        Left border:
+        <input type="text" name="leftBorder">
+    </div>
+    <br>
+    <div>
+        Right border:
+        <input type="text" name="rightBorder">
+    </div>
+    <br>
+    <div>
+        Size:
+        <input type="text" name="arraySize">
+    </div>
+    <br>
+    <button type="submit">Go</button>
+</form>
+</body>
+</html>
