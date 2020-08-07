@@ -7,6 +7,14 @@
 <body>
 <form th:action="@{/}" method="post">
     <div>
+        Sort:
+        <select name="sortName">
+            <option value="bubbleSort">Bubble</option>
+            <option value="selectionSort">Selection</option>
+        </select>
+    </div>
+    <br>
+    <div>
         Left border:
         <input type="text" name="leftBorder">
     </div>

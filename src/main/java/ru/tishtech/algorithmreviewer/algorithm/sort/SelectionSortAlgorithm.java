@@ -1,0 +1,16 @@
+package ru.tishtech.algorithmreviewer.algorithm.sort;
+
+import ru.tishtech.algorithmreviewer.algorithm.GeneralActions;
+
+public class SelectionSortAlgorithm {
+
+    public static void selectionSort(int[] array) {
+        for (int lastUnsortedIndex = array.length - 1; lastUnsortedIndex > 0; lastUnsortedIndex--) {
+            int largest = 0;
+            for (int i = 1; i <= lastUnsortedIndex; i++) {
+                if (array[i] > array[largest]) largest = i;
+            }
+            GeneralActions.swap(array, largest, lastUnsortedIndex);
+        }
+    }
+}
