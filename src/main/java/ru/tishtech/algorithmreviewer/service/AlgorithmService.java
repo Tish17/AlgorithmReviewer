@@ -2,6 +2,7 @@ package ru.tishtech.algorithmreviewer.service;
 
 import ru.tishtech.algorithmreviewer.algorithm.GeneralActions;
 import ru.tishtech.algorithmreviewer.algorithm.sort.BubbleSortAlgorithm;
+import ru.tishtech.algorithmreviewer.algorithm.sort.InsertionSortAlgorithm;
 import ru.tishtech.algorithmreviewer.algorithm.sort.SelectionSortAlgorithm;
 
 import java.util.Date;
@@ -13,8 +14,9 @@ public class AlgorithmService {
         for (int i = 0; i < 5; i++) {
             int[] array = GeneralActions.generateRandomArray(leftBorder, rightBorder, arraySize);
             Date start = new Date();
-            if (sortName.equals("bubbleSort")) BubbleSortAlgorithm.bubbleSort(array);
-            else if (sortName.equals("selectionSort")) SelectionSortAlgorithm.selectionSort(array);
+            if (sortName.equals("bubble")) BubbleSortAlgorithm.bubbleSort(array);
+            else if (sortName.equals("insertion")) InsertionSortAlgorithm.insertionSort(array);
+            else if (sortName.equals("selection")) SelectionSortAlgorithm.selectionSort(array);
             sum += new Date().getTime() - start.getTime();
         }
         return sum / 5.0;
