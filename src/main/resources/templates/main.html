@@ -7,12 +7,10 @@
 <body>
 <form th:action="@{/}" method="post">
     <div>
-        Sort:
-        <select name="sortName">
-            <option value="bubble">Bubble</option>
-            <option value="insertion">Insertion</option>
-            <option value="selection">Selection</option>
-        </select>
+        <div><input type="checkbox" name="sortNames" value="bubble">Bubble</div>
+        <div><input type="checkbox" name="sortNames" value="insertion">Insertion</div>
+        <div><input type="checkbox" name="sortNames" value="selection">Selection</div>
+        <div><input type="checkbox" name="sortNames" value="shell">Shell</div>
     </div>
     <br>
     <div>
@@ -28,6 +26,11 @@
     <div>
         Size:
         <input type="text" name="arraySize">
+    </div>
+    <br>
+    <div>
+        Iteration quantity:
+        <input type="text" name="iterationQuantity">
     </div>
     <br>
     <button type="submit">Go</button>

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.tishtech.algorithmreviewer.service.AlgorithmService;
 
+import java.util.List;
+
 @Controller
 public class MainController {
 
@@ -16,12 +18,14 @@ public class MainController {
     }
 
     @PostMapping("/")
-    public String go(@RequestParam String sortName,
+    public String go(@RequestParam List<String> sortNames,
                      @RequestParam int leftBorder,
                      @RequestParam int rightBorder,
-                     @RequestParam int arraySize, Model model) {
-        model.addAttribute("result",
-                AlgorithmService.calculate(sortName, leftBorder, rightBorder, arraySize));
+                     @RequestParam int arraySize,
+                     @RequestParam int iterationQuantity, Model model) {
+        model.addAttribute("sortModels",
+                AlgorithmService.calculate(sortNames, leftBorder, rightBorder,
+                        arraySize, iterationQuantity));
         return "done";
     }
 }

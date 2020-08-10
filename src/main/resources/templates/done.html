@@ -6,7 +6,14 @@
 </head>
 <body>
 <h1>Average time:</h1>
-<h1 th:text="${result} + ' ms'"></h1>
+<table border="1">
+    <tr>
+        <th th:each="sortModel : ${sortModels}" th:text="${sortModel.name}"></th>
+    </tr>
+    <tr>
+        <td th:each="sortModel : ${sortModels}" th:text="${sortModel.averageTime} + ' ms'"></td>
+    </tr>
+</table>
 <h2><a th:href="@{/}">Home</a></h2>
 </body>
 </html>
