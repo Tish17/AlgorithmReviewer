@@ -1,10 +1,7 @@
 package ru.tishtech.algorithmreviewer.service;
 
 import ru.tishtech.algorithmreviewer.algorithm.GeneralActions;
-import ru.tishtech.algorithmreviewer.algorithm.sort.BubbleSortAlgorithm;
-import ru.tishtech.algorithmreviewer.algorithm.sort.InsertionSortAlgorithm;
-import ru.tishtech.algorithmreviewer.algorithm.sort.SelectionSortAlgorithm;
-import ru.tishtech.algorithmreviewer.algorithm.sort.ShellSortAlgorithm;
+import ru.tishtech.algorithmreviewer.algorithm.sort.*;
 import ru.tishtech.algorithmreviewer.model.SortModel;
 
 import java.util.ArrayList;
@@ -35,6 +32,16 @@ public class AlgorithmService {
                 fullTime += new Date().getTime() - start.getTime();
             }
             sortModels.add(new SortModel("Insertion", fullTime * 1.0 / iterationQuantity));
+        }
+        if (sortNames.contains("merge")) {
+            long fullTime = 0;
+            for (int i = 0; i < iterationQuantity; i++) {
+                int[] array = GeneralActions.generateRandomArray(leftBorder, rightBorder, arraySize);
+                Date start = new Date();
+                MergeSortAlgorithm.mergeSort(array, 0, array.length);
+                fullTime += new Date().getTime() - start.getTime();
+            }
+            sortModels.add(new SortModel("Merge", fullTime * 1.0 / iterationQuantity));
         }
         if (sortNames.contains("selection")) {
             long fullTime = 0;
