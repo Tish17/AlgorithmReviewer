@@ -1,11 +1,11 @@
 package ru.tishtech.algorithmreviewer.model;
 
-public class SortModel {
+public class SortModel implements Comparable<SortModel> {
 
     private String name;
-    private double averageTime;
+    private Double averageTime;
 
-    public SortModel(String name, double averageTime) {
+    public SortModel(String name, Double averageTime) {
         this.name = name;
         this.averageTime = averageTime;
     }
@@ -18,11 +18,16 @@ public class SortModel {
         this.name = name;
     }
 
-    public double getAverageTime() {
+    public Double getAverageTime() {
         return averageTime;
     }
 
-    public void setAverageTime(double averageTime) {
+    public void setAverageTime(Double averageTime) {
         this.averageTime = averageTime;
+    }
+
+    @Override
+    public int compareTo(SortModel otherSortModel) {
+        return this.getAverageTime().compareTo(otherSortModel.getAverageTime());
     }
 }
