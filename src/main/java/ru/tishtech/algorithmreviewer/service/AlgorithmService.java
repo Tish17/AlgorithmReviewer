@@ -14,6 +14,7 @@ public class AlgorithmService {
                                             int arraySize, int iterationQuantity) {
         List<SortModel> sortModels = new ArrayList<>();
         long bubbleTime = 0;
+        long countingTime = 0;
         long insertionTime = 0;
         long mergeTime = 0;
         long selectionTime = 0;
@@ -27,6 +28,13 @@ public class AlgorithmService {
                 Date start = new Date();
                 BubbleSortAlgorithm.bubbleSort(sortableArray);
                 bubbleTime += new Date().getTime() - start.getTime();
+            }
+            if (sortNames.contains("counting")) {
+                int[] sortableArray = new int[arraySize];
+                System.arraycopy(baseArray, 0, sortableArray, 0, arraySize);
+                Date start = new Date();
+                CountingSortAlgorithm.countingSort(sortableArray, leftBorder, rightBorder);
+                countingTime += new Date().getTime() - start.getTime();
             }
             if (sortNames.contains("insertion")) {
                 int[] sortableArray = new int[arraySize];
@@ -66,6 +74,8 @@ public class AlgorithmService {
         }
         if (sortNames.contains("bubble"))
             sortModels.add(new SortModel("Bubble", bubbleTime * 1.0 / iterationQuantity));
+        if (sortNames.contains("counting"))
+            sortModels.add(new SortModel("Counting", countingTime * 1.0 / iterationQuantity));
         if (sortNames.contains("insertion"))
             sortModels.add(new SortModel("Insertion", insertionTime * 1.0 / iterationQuantity));
         if (sortNames.contains("merge"))
