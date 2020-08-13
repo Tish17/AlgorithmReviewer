@@ -17,9 +17,10 @@ public class AlgorithmService {
         long countingTime = 0;
         long insertionTime = 0;
         long mergeTime = 0;
+        long quickTime = 0;
+        long radixTime = 0;
         long selectionTime = 0;
         long shellTime = 0;
-        long quickTime = 0;
         for (int i = 0; i < iterationQuantity; i++) {
             int[] baseArray = GeneralActions.generateRandomArray(leftBorder, rightBorder, arraySize);
             if (sortNames.contains("bubble")) {
@@ -57,6 +58,13 @@ public class AlgorithmService {
                 QuickSortAlgorithm.quickSort(sortableArray, 0, sortableArray.length);
                 quickTime += new Date().getTime() - start.getTime();
             }
+            if (sortNames.contains("radix")) {
+                int[] sortableArray = new int[arraySize];
+                System.arraycopy(baseArray, 0, sortableArray, 0, arraySize);
+                Date start = new Date();
+                RadixSortAlgorithm.radixSort(sortableArray, 10, String.valueOf(leftBorder).length());
+                radixTime += new Date().getTime() - start.getTime();
+            }
             if (sortNames.contains("selection")) {
                 int[] sortableArray = new int[arraySize];
                 System.arraycopy(baseArray, 0, sortableArray, 0, arraySize);
@@ -82,6 +90,8 @@ public class AlgorithmService {
             sortModels.add(new SortModel("Merge", mergeTime * 1.0 / iterationQuantity));
         if (sortNames.contains("quick"))
             sortModels.add(new SortModel("Quick", quickTime * 1.0 / iterationQuantity));
+        if (sortNames.contains("radix"))
+            sortModels.add(new SortModel("Radix", radixTime * 1.0 / iterationQuantity));
         if (sortNames.contains("selection"))
             sortModels.add(new SortModel("Selection", selectionTime * 1.0 / iterationQuantity));
         if (sortNames.contains("shell"))
