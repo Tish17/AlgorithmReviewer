@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add bubble</title>
+</head>
+<body>
+<h1>Add bubble</h1>
+<form th:action="@{/bubble/save}" th:object="${bubble}" method="post">
+    <div>Value: <input th:field="*{value}"></div>
+    <br>
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

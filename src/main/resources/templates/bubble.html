@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bubble sort</title>
+</head>
+<body>
+<a th:href="@{/bubble/add}">Add bubble</a>
+<br>
+<br>
+<a th:href="@{/bubble/array/add}">Add bubble array</a>
+<br>
+<br>
+<h1>Array:</h1>
+<form th:action="@{/bubble/start}" method="post">
+    <button type="submit">Start</button>
+</form>
+<br>
+<table>
+    <tr>
+        <td style="font-size: 300%" th:each="bubble : ${bubbles}" th:text="${bubble.value} + ', '"></td>
+    </tr>
+    <br>
+    <tr th:if="${started}">
+        <td style="font-size: 200%" th:text="${left} + ' >'"></td>
+        <td style="font-size: 200%" th:text="${right} + ' ?'"></td>
+    </tr>
+</table>
+<br>
+<div th:if="${buttonShown}">
+    <form th:action="@{/bubble/action}" method="post">
+        <button type="submit" name="yes">Yes</button>
+        <button type="submit" name="no">No</button>
+    </form>
+</div>
+</body>
+</html>
