@@ -18,20 +18,34 @@
 <br>
 <table>
     <tr>
-        <td style="font-size: 300%" th:each="bubble : ${bubbles}" th:text="${bubble.value} + ', '"></td>
-    </tr>
-    <br>
-    <tr th:if="${started}">
-        <td style="font-size: 200%" th:text="${left} + ' >'"></td>
-        <td style="font-size: 200%" th:text="${right} + ' ?'"></td>
+        <div th:each="bubble : ${bubbles}">
+            <td th:style="'font-size: 300%; color: ' + ${bubble.color}" th:text="${bubble.value}"></td>
+            <td style="font-size: 300%" th:text="${bubble.comma}"></td>
+        </div>
     </tr>
 </table>
 <br>
-<div th:if="${buttonShown}">
-    <form th:action="@{/bubble/action}" method="post">
-        <button type="submit" name="yes">Yes</button>
+<table>
+    <tr th:if="${expressionShown}">
+        <td th:style="'font-size: 200%; color: ' + ${leftBubble.color}" th:text="${leftBubble.value}"></td>
+        <td style="font-size: 200%"> ></td>
+        <td th:style="'font-size: 200%; color: ' + ${rightBubble.color}" th:text="' ' + ${rightBubble.value}"></td>
+        <td style="font-size: 200%"> ?</td>
+    </tr>
+</table>
+<br>
+<div style="font-size: 150%; color: red" th:text="${actionResult}"></div>
+<br>
+<form th:action="@{/bubble/action}" method="post">
+    <input type="hidden" name="leftBubbleIndex" th:value="${leftBubble.index}">
+    <input type="hidden" name="rightBubbleIndex" th:value="${rightBubble.index}">
+    <div th:if="${yesNoShown}">
+        <button type="submit" name="yes">Yes, swap</button>
         <button type="submit" name="no">No</button>
-    </form>
-</div>
+    </div>
+    <div th:if="${nextShown}">
+        <button type="submit" name="next">Next</button>
+    </div>
+</form>
 </body>
 </html>

@@ -1,38 +1,55 @@
 package ru.tishtech.algorithmreviewer.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
 public class Bubble {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private Integer value;
+    private int index;
+    private int value;
+    private String comma = ",";
+    private String color = "black";
 
-    public Bubble() {
-    }
-
-    public Bubble(Integer value) {
+    public Bubble(int index, int value) {
+        this.index = index;
         this.value = value;
     }
 
-    public Long getId() {
-        return id;
+    public int getIndex() {
+        return index;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
-    public Integer getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(int value) {
         this.value = value;
+    }
+
+    public String getComma() {
+        return comma;
+    }
+
+    public void setComma(String comma) {
+        this.comma = comma;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    @Override
+    public String toString() {
+        return "Bubble{" +
+                "value=" + value +
+                ", comma='" + comma + '\'' +
+                ", color='" + color + '\'' +
+                '}';
     }
 }
