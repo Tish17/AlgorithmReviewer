@@ -6,10 +6,10 @@
 </head>
 <body>
 <h1>Add bubble</h1>
-<form th:action="@{/bubble/save}" th:object="${bubble}" method="post">
-    <div>Value: <input th:field="*{value}"></div>
+<form th:action="@{/bubble/add}" method="post">
+    <div>Array: <input type="text" name="bubbleArrayString"></div>
     <br>
-    <button type="submit">Save</button>
+    <button type="submit">Add</button>
 </form>
 </body>
 </html>

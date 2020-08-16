@@ -4,64 +4,66 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.tishtech.algorithmreviewer.algorithm.sort.BubbleSortAlgorithm;
 import ru.tishtech.algorithmreviewer.model.Bubble;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequestMapping("/bubble")
 public class BubbleController {
 
-    private List<Bubble> bubbles = new ArrayList<>();
+    private List<Bubble> bubbles;
+    private int bubbleSwapCount;
 
-    @GetMapping("/bubble")
-    public String bubblePage(Model model) {
-        model.addAttribute("bubbles", bubbles);
+    @GetMapping("/first")
+    public String bubbleFirstPage() {
+        return "bubble-first";
+    }
+
+    @GetMapping
+    public String bubblePage() {
         return "bubble";
     }
 
-//    @GetMapping("/bubble/add")
-//    public String bubbleAddPage(Model model) {
-//        model.addAttribute("bubble", new Bubble());
-//        return "bubble-add";
-//    }
-
-    @GetMapping("/bubble/array/add")
-    public String bubbleArrayAddPage() {
-        return "bubble-array-add";
+    @GetMapping("/add")
+    public String bubbleAddPage() {
+        return "bubble-add";
     }
 
-    @PostMapping("/bubble/save")
-    public String bubbleSave(Bubble bubble) {
-        return "redirect:/bubble";
-    }
-
-    @PostMapping("/bubble/array/save")
-    public String bubbleArraySave(@RequestParam String bubbleArrayString) {
-        String[] bubbleArray = bubbleArrayString.split(",");
-        for (int i = 0; i < bubbleArray.length; i++)
-            bubbles.add(new Bubble(i, Integer.parseInt(bubbleArray[i])));
+    @PostMapping("/add")
+    public String bubbleAdd(@RequestParam String bubbleArrayString, Model model) {
+        String[] bubbleArrayOfStrings = bubbleArrayString.split(",");
+        bubbles = new ArrayList<>();
+        int[] bubbleArrayOfNumbers = new int[bubbleArrayOfStrings.length];
+        for (int i = 0; i < bubbleArrayOfStrings.length; i++) {
+            bubbles.add(new Bubble(i, Integer.parseInt(bubbleArrayOfStrings[i])));
+            bubbleArrayOfNumbers[i] = Integer.parseInt(bubbleArrayOfStrings[i]);
+        }
+        BubbleSortAlgorithm.bubbleSort(bubbleArrayOfNumbers);
+        bubbleSwapCount = BubbleSortAlgorithm.bubbleSwapCount;
         Bubble lastBubble = bubbles.get(bubbles.size() - 1);
         lastBubble.setComma("");
-        return "redirect:/bubble";
+        addAttributesToModel(model, bubbles, null, null, true,
+                false, false, false, false);
+        return "bubble";
     }
 
-    @PostMapping("/bubble/start")
+    @PostMapping("/start")
     public String bubbleStart(Model model) {
         Bubble leftBubble = bubbles.get(0);
         Bubble rightBubble = bubbles.get(1);
         leftBubble.setColor("blue");
         rightBubble.setColor("blue");
-        model.addAttribute("leftBubble", leftBubble);
-        model.addAttribute("rightBubble", rightBubble);
-        model.addAttribute("expressionShown", true);
-        model.addAttribute("yesNoShown", true);
-        model.addAttribute("bubbles", bubbles);
+        addAttributesToModel(model, bubbles, leftBubble, rightBubble, false,
+                true, true, true, false);
         return "bubble";
     }
 
-    @PostMapping(value = "/bubble/action", params = {"yes"})
+    @PostMapping(value = "/action", params = {"yes"})
     public String bubbleActionYes(@RequestParam int leftBubbleIndex,
                                   @RequestParam int rightBubbleIndex, Model model) {
         Bubble leftBubble = bubbles.get(leftBubbleIndex);
@@ -72,47 +74,68 @@ public class BubbleController {
             rightBubble = tempBubble;
             leftBubble.setIndex(leftBubbleIndex);
             rightBubble.setIndex(rightBubbleIndex);
+            if (rightBubbleIndex == bubbles.size() - 1) {
+                leftBubble.setComma(",");
+                rightBubble.setComma("");
+            }
             bubbles.set(leftBubbleIndex, leftBubble);
             bubbles.set(rightBubbleIndex, rightBubble);
-            model.addAttribute("nextShown", true);
+            addAttributesToModel(model, bubbles, leftBubble, rightBubble, false,
+                    false, true, false, true);
+            if (--bubbleSwapCount == 0) {
+                for (Bubble bubble : bubbles) bubble.setColor("green");
+                addAttributesToModel(model, bubbles, null, null, false,
+                        false, false, false, false);
+                model.addAttribute("sortResult", true);
+                model.addAttribute("bubbleSwapCount", BubbleSortAlgorithm.bubbleSwapCount);
+            }
         } else {
+            addAttributesToModel(model, bubbles, leftBubble, rightBubble, false,
+                    true, true, true, false);
             model.addAttribute("actionResult", "Wrong!");
         }
-        model.addAttribute("leftBubble", leftBubble);
-        model.addAttribute("rightBubble", rightBubble);
-        model.addAttribute("expressionShown", false);
-        model.addAttribute("yesNoShown", false);
-        model.addAttribute("bubbles", bubbles);
         return "bubble";
     }
 
-    @PostMapping(value = "/bubble/action", params = {"no"})
-    public String bubbleActionNo(@RequestParam int leftBubbleIndex,
-                                 @RequestParam int rightBubbleIndex, Model model) {
+    @PostMapping("/action")
+    public String bubbleActionNo(@RequestParam int leftBubbleIndex, @RequestParam int rightBubbleIndex,
+                                 @RequestParam(required = false) String next, Model model) {
         Bubble leftBubble = bubbles.get(leftBubbleIndex);
         Bubble rightBubble = bubbles.get(rightBubbleIndex);
-        if (leftBubble.getValue() < rightBubble.getValue()) {
-            Bubble oldBubble = leftBubble;
-            oldBubble.setColor("black");
-            leftBubble = bubbles.get(rightBubbleIndex);
-            rightBubble = bubbles.get(rightBubbleIndex + 1);
+        if (leftBubble.getValue() < rightBubble.getValue() || next != null) {
+            Bubble oldLeftBubble = leftBubble;
+            oldLeftBubble.setColor("black");
+            if (rightBubbleIndex == bubbles.size() - 1) {
+                Bubble oldRightBubble = rightBubble;
+                oldRightBubble.setColor("black");
+                leftBubble = bubbles.get(0);
+                rightBubble = bubbles.get(1);
+                leftBubble.setColor("blue");
+            } else {
+                leftBubble = bubbles.get(rightBubbleIndex);
+                rightBubble = bubbles.get(rightBubbleIndex + 1);
+            }
             rightBubble.setColor("blue");
         } else {
             model.addAttribute("actionResult", "Wrong!");
         }
-        model.addAttribute("leftBubble", leftBubble);
-        model.addAttribute("rightBubble", rightBubble);
-        model.addAttribute("expressionShown", true);
-        model.addAttribute("yesNoShown", true);
-        model.addAttribute("bubbles", bubbles);
+        addAttributesToModel(model, bubbles, leftBubble, rightBubble, false,
+                true, true, true, false);
         return "bubble";
     }
 
-    @PostMapping(value = "/bubble/action", params = {"next"})
-    public String bubbleActionNext(Model model) {
-        model.addAttribute("expressionShown", true);
-        model.addAttribute("yesNoShown", true);
+    private void addAttributesToModel(Model model, List<Bubble> bubbles,
+                                      Bubble leftBubble, Bubble rightBubble,
+                                      boolean startShown, boolean expressionShown,
+                                      boolean formShown, boolean yesNoShown, boolean nextShown) {
         model.addAttribute("bubbles", bubbles);
-        return "bubble";
+        model.addAttribute("leftBubble", leftBubble);
+        model.addAttribute("rightBubble", rightBubble);
+        model.addAttribute("startShown", startShown);
+        model.addAttribute("expressionShown", expressionShown);
+        model.addAttribute("formShown", formShown);
+        model.addAttribute("yesNoShown", yesNoShown);
+        model.addAttribute("nextShown", nextShown);
     }
+
 }
