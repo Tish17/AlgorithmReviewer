@@ -46,7 +46,7 @@ public class BubbleService {
 
     public void bubbleStart(Model model) {
         if (bubbleSwapCount == 0) {
-            actionsAfterSortingArray(model);
+            actionsAfterSortingBubbleArray(model);
         } else {
             Bubble leftBubble = bubbles.get(0);
             Bubble rightBubble = bubbles.get(1);
@@ -73,7 +73,7 @@ public class BubbleService {
             bubbles.set(leftBubbleIndex, leftBubble);
             bubbles.set(rightBubbleIndex, rightBubble);
             if (--bubbleSwapCount == 0) {
-                actionsAfterSortingArray(model);
+                actionsAfterSortingBubbleArray(model);
             } else {
                 addAttributesToModel(model, bubbles, leftBubble, rightBubble, false,
                         false, true, false, true);
@@ -123,7 +123,7 @@ public class BubbleService {
         model.addAttribute("nextShown", nextShown);
     }
 
-    private void actionsAfterSortingArray(Model model) {
+    private void actionsAfterSortingBubbleArray(Model model) {
         for (Bubble bubble : bubbles) bubble.setColor("green");
         addAttributesToModel(model, bubbles, null, null, false,
                 false, false, false, false);

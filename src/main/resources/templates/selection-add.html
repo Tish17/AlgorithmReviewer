@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add selection</title>
+</head>
+<body>
+<h1>Add selection</h1>
+<form th:action="@{/selection/add}" method="post">
+    <div>Enter array: <input type="text" name="selectionArrayString"></div>
+    <br>
+    <button type="submit">Enter</button>
+    <br>
+    <br>
+    <div>or generate:
+        <br>
+        <br>
+        <div>
+            Left border:
+            <input type="text" name="leftBorder">
+        </div>
+        <br>
+        <div>
+            Right border:
+            <input type="text" name="rightBorder">
+        </div>
+        <br>
+        <div>
+            Size:
+            <input type="text" name="arraySize">
+        </div>
+    </div>
+    <br>
+    <button type="submit" name="random">Generate</button>
+</form>
+</body>
+</html>

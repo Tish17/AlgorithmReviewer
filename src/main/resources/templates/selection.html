@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Selection sort</title>
+</head>
+<body>
+<h1>Array:</h1>
+<form th:action="@{/selection/action/array}" method="post">
+    <table>
+        <tr>
+            <div th:each="selection : ${selections}">
+                <td>
+                    <button type="submit" th:style="'font-size: 300%; color: ' + ${selection.color}"
+                            name="selectedIndices" th:text="${selection.value}"
+                            th:value="${selection.index}"></button>
+                </td>
+                <td style="font-size: 300%" th:text="${selection.comma}"></td>
+            </div>
+        </tr>
+    </table>
+</form>
+<br>
+<div th:if="${selectShown}" style="font-size: 200%">Select the smallest number</div>
+<br>
+<div th:if="${doesShown}" style="font-size: 200%">Does it need to swap?</div>
+<br>
+<div th:if="${formShown}">
+    <form th:action="@{/selection/action}" method="post">
+        <div th:if="${yesNoShown}">
+            <button type="submit" name="yes">Yes, swap</button>
+            <button type="submit" name="no">No</button>
+        </div>
+        <div th:if="${nextShown}">
+            <button type="submit" name="next">Next</button>
+        </div>
+    </form>
+</div>
+<br>
+<div th:if="${startShown}">
+    <form th:action="@{/selection/start}" method="post">
+        <button type="submit">Start</button>
+    </form>
+</div>
+<br>
+</body>
+</html>
