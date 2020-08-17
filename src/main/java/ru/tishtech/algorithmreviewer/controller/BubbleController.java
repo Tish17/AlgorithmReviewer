@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.tishtech.algorithmreviewer.service.BubbleService;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/bubble")
 public class BubbleController {
@@ -34,6 +36,13 @@ public class BubbleController {
     @PostMapping("/add")
     public String bubbleAdd(@RequestParam String bubbleArrayString, Model model) {
         bubbleService.bubbleAdd(bubbleArrayString, model);
+        return "bubble";
+    }
+
+    @PostMapping(value = "/add", params = {"random"})
+    public String bubbleAddRandom(@RequestParam int leftBorder, @RequestParam int rightBorder,
+                                  @RequestParam int arraySize, Model model) {
+        bubbleService.bubbleAddRandom(leftBorder, rightBorder, arraySize, model);
         return "bubble";
     }
 

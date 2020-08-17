@@ -2,6 +2,7 @@ package ru.tishtech.algorithmreviewer.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import ru.tishtech.algorithmreviewer.algorithm.GeneralActions;
 import ru.tishtech.algorithmreviewer.algorithm.sort.BubbleSortAlgorithm;
 import ru.tishtech.algorithmreviewer.model.Bubble;
 
@@ -23,6 +24,19 @@ public class BubbleService {
             bubbleArrayOfNumbers[i] = Integer.parseInt(bubbleArrayOfStrings[i]);
         }
         BubbleSortAlgorithm.bubbleSort(bubbleArrayOfNumbers);
+        bubbleSwapCount = BubbleSortAlgorithm.bubbleSwapCount;
+        Bubble lastBubble = bubbles.get(bubbles.size() - 1);
+        lastBubble.setComma("");
+        addAttributesToModel(model, bubbles, null, null, true,
+                false, false, false, false);
+    }
+
+    public void bubbleAddRandom(int leftBorder, int rightBorder, int arraySize, Model model) {
+        int[] randomArray = GeneralActions.generateRandomArray(leftBorder, rightBorder, arraySize);
+        bubbles = new ArrayList<>();
+        for (int i = 0; i < randomArray.length; i++)
+            bubbles.add(new Bubble(i, randomArray[i]));
+        BubbleSortAlgorithm.bubbleSort(randomArray);
         bubbleSwapCount = BubbleSortAlgorithm.bubbleSwapCount;
         Bubble lastBubble = bubbles.get(bubbles.size() - 1);
         lastBubble.setComma("");
