@@ -46,21 +46,23 @@ public class SelectionController {
         return "selection";
     }
 
-    @PostMapping("/start")
-    public String selectionStart(Model model) {
-        selectionService.selectionStart(model);
-        return "bubble";
-    }
-
-    @PostMapping("/action/array")
-    public String selectionActionArray(@RequestParam int selectedIndex, Model model) {
-        selectionService.selectionActionArray(selectedIndex, model);
+    @PostMapping("/select")
+    public String selectionSelect(@RequestParam int selectedIndex, Model model) {
+        selectionService.selectionSelect(selectedIndex, model);
         return "selection";
     }
 
-    @PostMapping(value = "/action", params = {"yes"})
-    public String selectionActionYes(Model model) {
-        selectionService.selectionActionYes(model);
+    @PostMapping(value = "/action", params = {"swap"})
+    public String selectionActionSwap(@RequestParam int firstSelectedIndex,
+                                      @RequestParam int secondSelectedIndex, Model model) {
+        selectionService.selectionActionSwap(firstSelectedIndex, secondSelectedIndex, model);
+        return "selection";
+    }
+
+    @PostMapping(value = "/action", params = {"next"})
+    public String selectionActionNext(@RequestParam int firstSelectedIndex,
+                                      @RequestParam int secondSelectedIndex, Model model) {
+        selectionService.selectionActionNext(firstSelectedIndex, secondSelectedIndex, model);
         return "selection";
     }
 }

@@ -45,35 +45,52 @@ public class SelectionService {
         model.addAttribute("selections", selections);
     }
 
-    public void selectionStart(Model model) {
-        if (selectionSwapCount == 0) {
-            actionsAfterSortingSelectionArray(model);
-        } else {
-            Selection leftSelection = selections.get(0);
-            Selection rightSelection = selections.get(1);
-            leftSelection.setColor("blue");
-            rightSelection.setColor("blue");
-        }
-        model.addAttribute("selections", selections);
-        model.addAttribute("selectShown", true);
-    }
-
-    public void selectionActionArray(int selectedIndex, Model model) {
+    public void selectionSelect(int selectedIndex, Model model) {
         selectedIndices.add(selectedIndex);
-        if (selectedIndices.size() == 2) {
+        if (selectedIndices.size() == 1) {
+            Selection firstSelectedSelection = selections.get(selectedIndices.get(0));
+            firstSelectedSelection.setColor("blue");
+        } else if (selectedIndices.size() == 2) {
+            Selection secondSelectedSelection = selections.get(selectedIndices.get(1));
+            secondSelectedSelection.setColor("blue");
+            model.addAttribute("firstSelectedIndex", selectedIndices.get(0));
+            model.addAttribute("secondSelectedIndex", selectedIndices.get(1));
+            model.addAttribute("formShown", true);
+            model.addAttribute("swapShown", true);
+        } else {
             Selection firstSelectedSelection = selections.get(selectedIndices.get(0));
             Selection secondSelectedSelection = selections.get(selectedIndices.get(1));
-            firstSelectedSelection.setColor("blue");
-            secondSelectedSelection.setColor("blue");
-            model.addAttribute("selections", selections);
-            model.addAttribute("doesShown", true);
-            model.addAttribute("formShown", true);
-            model.addAttribute("yesNoShown", true);
-            model.addAttribute("nextShown", false);
+            firstSelectedSelection.setColor("black");
+            secondSelectedSelection.setColor("black");
+            selectedIndices = new ArrayList<>();
         }
+        model.addAttribute("selections", selections);
     }
 
-    public void selectionActionYes(Model model) {
+    public void selectionActionSwap(int firstSelectedIndex, int secondSelectedIndex, Model model) {
+        selectedIndices = new ArrayList<>();
+        Selection firstSelectedSelection = selections.get(firstSelectedIndex);
+        Selection secondSelectedSelection = selections.get(secondSelectedIndex);
+        Selection tempSelection = firstSelectedSelection;
+        firstSelectedSelection = secondSelectedSelection;
+        secondSelectedSelection = tempSelection;
+        firstSelectedSelection.setIndex(firstSelectedIndex);
+        secondSelectedSelection.setIndex(secondSelectedIndex);
+        selections.set(firstSelectedIndex, firstSelectedSelection);
+        selections.set(secondSelectedIndex, secondSelectedSelection);
+        model.addAttribute("selections", selections);
+        model.addAttribute("firstSelectedIndex", firstSelectedIndex);
+        model.addAttribute("secondSelectedIndex", secondSelectedIndex);
+        model.addAttribute("formShown", true);
+        model.addAttribute("nextShown", true);
+    }
+
+    public void selectionActionNext(int firstSelectedIndex, int secondSelectedIndex, Model model) {
+        Selection firstSelectedSelection = selections.get(firstSelectedIndex);
+        Selection secondSelectedSelection = selections.get(secondSelectedIndex);
+        firstSelectedSelection.setColor("black");
+        secondSelectedSelection.setColor("black");
+        model.addAttribute("selections", selections);
     }
 
     private void actionsAfterSortingSelectionArray(Model model) {
